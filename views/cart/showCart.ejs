@@ -1,0 +1,58 @@
+<%- include("../partials/header") %>
+<%- include("../partials/navbar") %>
+
+<div class="container mt-5">
+  <div class="text-center my-4">
+    <h2 class="text-secondary display-5 fw-bold">Your Cart</h2>
+  </div>
+  <%- include("../partials/flash") %>
+  <div class="row">
+    <div class="col-12 col-md-8">
+      <% for (let product of cart){ %>
+        <div class="card mb-3">
+          <div class="row">
+            <div class="col-4">
+              <img class="card-img-top" src="<%= product.img %>" alt="Card image cap">
+            </div>
+            <div class="col-8">
+              <div class="card-body">
+                <h4 class="card-title"><%= product.name %></h4>
+                <h5 class="card-title text-muted">Rs. <%= product.price %></h5>
+                <p class="card-text"><%= product.desc.substring(0,100) %>...</p>
+                <form action="/cart/<%= product._id%>/user/<%= currentUser._id %>?_method=DELETE" method="POST">
+                  <button class="btn btn-danger">Remove</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+
+    <div class="col-12 col-md-4"> 
+      <div class="">
+        <h2 class="text-dark fw-bold">Product</h2>
+      </div>
+      <%let totalAmount=0 %>
+      <ul class="list-group">
+        <%for(let product of cart){%>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <%= product.name%>
+            <span >$  <%= product.price%></span>
+          </li>
+          <%totalAmount = totalAmount+product.price %>
+        <%}%>
+      </ul>
+      <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center fw-bold">
+          TOTAL: 
+          <span>$ <%=totalAmount%></span>
+          <button class="btn btn-warning">Proceed to Pay</button>
+        </li>
+      </ul>
+      
+    </div>
+
+  </div>
+   </div>
+<%- include("../partials/footer") %>

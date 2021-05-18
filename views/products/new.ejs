@@ -1,0 +1,31 @@
+<%- include("../partials/header") %>
+<%- include("../partials/navbar") %>
+<div class="container">
+    <section class="text-center my-3 ">
+        <h2 class="">Add Product</h2>
+    </section>
+    <form action="/products" method="POST" class="w-50 m-auto mt-4 needs-validation" novalidate>
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="name" placeholder="Product Name" name="product[name]" required>
+          <div class="valid-feedback">
+            Looks good!
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="img" class="form-label">Image URL</label>
+          <input type="text" class="form-control" id="img" placeholder="Image URL" name="product[img]" required>
+        </div>
+        <div class="mb-3">
+          <label for="price" class="form-label">Price ($)</label>
+          <input type="number" class="form-control" id="price" placeholder="Price"  name="product[price]" required>
+        </div>
+        <div class="mb-3">
+          <label for="desc" class="form-label">Description</label>
+          <textarea  id="" class="form-control" cols="30" rows="7" placeholder="Description"  name="product[desc]" required></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+</div>
+<%- include("../partials/footer") %>
