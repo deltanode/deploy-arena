@@ -55,7 +55,7 @@ app.use((req,res,next)=>{
 
 // Database connection
 mongoose
-  .connect(process.env.CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false  })
+  .connect(process.env.CONNECTION_STRING || "mongodb://127.0.0.1:27017/ecommerce", { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false  })
   .then(() => {
     console.log("DB Connected")
   })
