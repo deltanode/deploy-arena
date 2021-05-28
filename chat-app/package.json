@@ -1,10 +1,11 @@
 {
-  "name": "node-socket",
+  "name": "socket-chatapp",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "license": "MIT",
-  "scripts":{
-    "start": "nodemon server.js"
+  "scripts": {
+    "dev" : "nodemon server.js",
+    "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.17.1",

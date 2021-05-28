@@ -1,30 +1,40 @@
 const express = require("express")
 const http = require("http")
-const path = require("path")
 const socketio = require("socket.io")
+const path = require("path")
+// const socket = require("./socket")
 
 const app = express()
 const server = http.createServer(app)
 const io = socketio(server)
-const user={}
 
-app.use("/",express.static(path.join(__dirname,"public")))
+app.use(express.static(path.join(__dirname,"public")))
+
+app.use((req,res)=>{
+    res.status(404).send("Page not found")
+})
+
+let user = {}
 
 io.on("connection",(socket)=>{
-    // console.log(socket.id)
-    socket.on("login",(data)=>{
-        // console.log(data.name)
-        user[socket.id] = data.name
+    socket.emit("recEvent",{
+        name: "Server",
+        msg: "Welcome to the Chat App"
     })
+    
+    socket.on("msgEvent",(data)=>{
+        user[socket.id] = data.name
 
-    socket.on("sendMsg",(data)=>{
-        io.emit("receivedMsg",{
-            msg:data.msg,
-            name:user[socket.id]
+        io.emit("recEvent",{
+            name:user[socket.id],
+            msg:data.message
         })
+        // console.log(user)
     })
 })
 
-server.listen(process.env.PORT || 3000,()=>{
+
+
+server.listen(process.env.PORT || 3000, ()=>{
     console.log("Server running at port 3000")
 })

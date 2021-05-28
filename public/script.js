@@ -1,40 +1,43 @@
-const login = document.querySelector("#login")
-const chat = document.querySelector("#chat")
-const loginBtn = document.querySelector("#loginBtn")
-const sendBtn = document.querySelector("#sendBtn")
-const username = document.querySelector("#username")
-const msg = document.querySelector("#msg")
+const socket = io()
+const nameInput = document.querySelector("input")
+const msgInput = document.querySelector("textarea")
+const btn = document.querySelector("button")
 const list = document.querySelector("ul")
 
-
-const socket = io()
-
-loginBtn.addEventListener("click",(e)=>{
-    e.preventDefault()
-    socket.emit("login",{
-        name:username.value
-    })
-    login.classList.add("d-none")
-    chat.classList.remove("d-none")
+msgInput.addEventListener("keydown",(e)=>{
+    // console.log(e.keyCode)
+    if(e.keyCode === 13){
+        btn.click()
+        // if(nameInput.value){
+        //     socket.emit("msgEvent",{
+        //         name: nameInput.value,
+        //         message: msgInput.value
+        //     })
+        //     msgInput.value = ""
+        //     nameInput.disabled = true
+        // }else{
+        //     nameInput.focus()
+        // }
+    }
 })
 
-sendBtn.addEventListener("click",(e)=>{
+btn.addEventListener("click",(e)=>{
     e.preventDefault()
-    socket.emit("sendMsg",{
-        msg:msg.value
-    })
-    // msg.value = ""
-    document.querySelector(".emojionearea-editor").innerText = ""
-    // $(".emojionearea-editor").text("")
+    msgInput.value.slice(0, -1)
+    if(nameInput.value){
+        socket.emit("msgEvent",{
+            name: nameInput.value,
+            message: msgInput.value
+        })
+        msgInput.value = ""
+        nameInput.disabled = true
+    }else{
+        nameInput.focus()
+    }
 })
 
-socket.on("receivedMsg",(data)=>{
+socket.on("recEvent",(data)=>{
     const li = document.createElement("li")
-    li.innerHTML = `<b>${data.name}</b>:  ${data.msg}`
-    li.classList.add("list-group-item")
-    li.classList.add("mb-2")
-    li.classList.add("text-break")
+    li.innerText = `${data.name} : ${data.msg}`
     list.append(li)
 })
-
-// console.log(socket.id)
