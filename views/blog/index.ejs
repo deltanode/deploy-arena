@@ -1,0 +1,7 @@
+<%-include("../partials/header")%>
+    <a href="/blog/new">New</a>
+    <%for(let blog of blogs){%>
+        <h1><a href="/blog/<%=blog._id%>"><%=blog.title%></a></h1>
+        <p><%=blog.body%></p>
+    <%}%>
+<%-include("../partials/footer")%>
